@@ -1,0 +1,20 @@
+.side_bar_firmas{
+  height: 100vh;
+  width: 60px;
+  position: fixed;
+  transition: 0.3s;
+}
+
+.side_bar_firmas:hover{
+  width: 100px;
+  transition: 0.3s;
+}
+
+.icon_side-bar{
+  padding-top: 50px
+}
+.icon_side-bar span{
+  font-weight: bold;
+  font-size: 30px;
+  color: #218f8b
+}

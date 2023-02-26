@@ -1,0 +1,98 @@
+<div class="firmas_container_principal">
+  <!-- Component Title-->
+  <span class="table_title">Configurar Firmas</span>
+
+  <!-- Container of Table Firmas-->
+  <div class="firmas_container">
+
+    <!-- Table Title -->
+    <h2 class="mb-4">Lista de Certificados por Empresa</h2>
+
+    <!-- Button ADD new Firma (Open Modal)-->
+    <app-add-firma-modal (changeState)="eventSinceChild($event)"></app-add-firma-modal>
+
+    <!-- Button EDIT Firma (Open Modal) -->
+    <app-edit-firma-modal (changeState)="eventSinceChild($event)" [id]="id_item"></app-edit-firma-modal>
+
+    <!-- Search in Firmas Table-->
+    <div style="text-align: right" >
+      <input
+        class="mt-4 mb-2"
+        (keyup)="searchFirma()"
+        [(ngModel)]="inputValue"
+        placeholder="Buscar Firma"
+      >
+    </div>
+
+
+    <!-- Button Export Table EXCEL -->
+    <div class="container_btn_excel">
+      <div class="btn_excel" (click)="exportToExcel()">
+        <fa-icon [icon]="excel" class="icon" ></fa-icon>
+        <span>Exportar</span>
+      </div>
+    </div>
+
+    <!--
+    ===========================================================
+    ====                      TABLE                        ====
+    ===========================================================
+    -->
+    <table class="table table-hover table-striped" id="firmas_table" >
+      <thead>
+      <tr>
+        <th>Id</th>
+        <th>Razon Social / Persona</th>
+        <th>Tipo Firma</th>
+        <th>Representante Legal</th>
+        <th>Empresa Acreditadora</th>
+        <th>Fecha Emision</th>
+        <th>Fecha Vencimiento</th>
+        <th>Ruta Rubrica</th>
+        <th class="text-center">Opciones</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of firmaFiltrado">
+
+        <td> {{ item.id_firma  }} </td>
+
+        <td> {{ item.razon_social }} </td>
+
+        <td *ngIf="item.tipo_firma === '1'"> Firma Digital </td>
+        <td *ngIf="item.tipo_firma === '2'"> Rúbrica Escaneada </td>
+        <td *ngIf="item.tipo_firma === '3'"> Firma Electrónica </td>
+
+        <td> {{ item.representante_legal }} </td>
+
+        <td> {{ item.empresa_acreditadora }} </td>
+
+        <td> {{ item.fecha_emision | date:'dd-MM-yyyy'}} </td>
+
+        <td> {{ item.fecha_vencimiento | date:'dd-MM-yyyy' }} </td>
+
+        <td *ngIf="item.ruta_rubrica.length !== 0"> Correcto  </td>
+
+        <!--  Action Buttons-->
+        <td class="text-center">
+          <div class="dropup-center dropup">
+            <button class="btn " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <fa-icon [icon]="circle" class="btn_icon"></fa-icon>
+            </button>
+            <div class="dropdown-menu text-center">
+              <button (click)="editItem(item.id_firma)" type="button" class="btn btn_edit" data-bs-toggle="modal" data-bs-target="#firmaModalEdit">
+                <fa-icon [icon]="pen"  class="btn_icon"></fa-icon>
+              </button>
+              <button (click)= "deleteItem(item.id_firma)" class="btn btn_delete" >
+                <fa-icon [icon]="garbage" class="btn_icon"></fa-icon>
+              </button>
+            </div>
+          </div>
+
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>

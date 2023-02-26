@@ -1,0 +1,14 @@
+<div class="bg-white side_bar_firmas" id="side-bar">
+
+<!-- Principal Icon -->
+  <div class="text-center icon_side-bar">
+    <span>B</span>
+  </div>
+
+<!-- List Icons-->
+  <ul class="nav nav-pills nav-flush flex-column mb-auto text-center mt-4" >
+    <li class="nav-item" *ngFor="let icon of iconsArray">
+      <fa-icon [icon]="icon" class="nav-link py-3 border-bottom rounded-0" style="color: #218f8b"></fa-icon>
+    </li>
+  </ul>
+</div>

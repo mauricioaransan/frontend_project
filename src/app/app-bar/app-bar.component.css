@@ -1,0 +1,18 @@
+.appbar_firmas{
+  width: 100%;
+  position: fixed;
+  z-index: 2;
+  background-color: #333
+}
+.row{
+  height: 50px;
+  padding-top: 3px
+}
+.icon_appbar{
+  font-size: 24px;
+  width: fit-content;
+}
+.avatar_icon{
+  background-color: #218f8b;
+  padding: 6px
+}

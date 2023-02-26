@@ -1,0 +1,230 @@
+
+<!-- Button to open Modal -->
+
+<button
+  type="button"
+  class="btn px-5 py-2 mx-4 text-white btnaddFirma"
+  data-bs-toggle="modal"
+  data-bs-target="#firmaModal"
+>
+  Agregar Nuevo
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="firmaModal" tabindex="-1" aria-labelledby="LabelModal" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Firmas</h1>
+        <button type="button" (click)="onClose()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <!-- FORM -->
+        <form (ngSubmit)="onSubmit()" #firmasADDForm = "ngForm">
+          <div class="mb-3">
+            <div class="row">
+              <div class="col-lg-6 col-xl-6 col-md-6 col-sm-12">
+
+                <!-- Firma type-->
+                <div class="form-group">
+                  <label for="firmaType" class="form-label">Tipo Firma</label>
+                  <select
+                    required
+                    class="form-select"
+                    id="firmaType"
+                    [(ngModel)]="firma.tipo_firma"
+                    name="firmaType"
+                    #firmaType = 'ngModel'
+                  >
+                    <option value=1>Firma Digital</option>
+                    <option value=2>Rúbrica Escaneada</option>
+                    <option value=3>Firma Electrónica</option>
+                  </select>
+                  <div class="alert alert-danger" *ngIf="firmaType.invalid && (firmaType.dirty || firmaType.touched)">
+                    <div *ngIf="firmaType.errors?.['required']">
+                      Seleccione el Tipo de Firma
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Razon Social-->
+                <div class="form-group">
+                  <label for="razonSocial" class="form-label">Razón Social / Persona</label>
+                  <input
+                    required
+                    type="text"
+                    class="form-control"
+                    id="razonSocial"
+                    [(ngModel)]="firma.razon_social"
+                    name="razonSocial"
+                    #razonSocial = 'ngModel'
+                  >
+                  <div class="alert alert-danger" *ngIf="razonSocial.invalid && (razonSocial.dirty || razonSocial.touched)">
+                    <div *ngIf="razonSocial.errors?.['required']">
+                      Digite la Razón Social
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- Representante Legal -->
+                <div class="form-group">
+                  <label for="repreLegal" class="form-label">Representante Legal</label>
+                  <input
+                    required
+                    type="text"
+                    class="form-control"
+                    id="repreLegal"
+                    [(ngModel)]="firma.representante_legal"
+                    name="repre_legal"
+                    #repre_legal = 'ngModel'
+                  >
+                  <div class="alert alert-danger" *ngIf="repre_legal.invalid && (repre_legal.dirty || repre_legal.touched)">
+                    <div *ngIf="repre_legal.errors?.['required']">
+                      Digite el Representante Legal
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Empresa Acreditadora -->
+                <div class="form-group">
+                  <label for="emprAcred" class="form-label">Empresa Acreditadora</label>
+                  <input
+                    required
+                    type="text"
+                    class="form-control"
+                    id="emprAcred"
+                    [(ngModel)]="firma.empresa_acreditadora"
+                    name="empre_acredi"
+                    oninput="this.value = this.value.toUpperCase()"
+                    #empre_acredi = 'ngModel'
+                  >
+                  <div class="alert alert-danger" *ngIf="empre_acredi.invalid && (empre_acredi.dirty || empre_acredi.touched)">
+                    <div *ngIf="empre_acredi.errors?.['required']">
+                      Digite la Empresa Acreditadora
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Fecha Emisión -->
+                <div>
+                  <label for="fechaEmision" class="form-label">Fecha de Emision</label>
+                  <input
+                    required
+                    type="date"
+                    class="form-control"
+                    id="fechaEmision"
+                    [(ngModel)]="firma.fecha_emision"
+                    name="fech_emision"
+                    #fech_emision = 'ngModel'
+                  >
+                  <div class="alert alert-danger" *ngIf="fech_emision.invalid && (fech_emision.dirty || fech_emision.touched)">
+                    <div *ngIf="fech_emision.errors?.['required']">
+                      Ingrese la Fecha de Emisión
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- Fecha Vencimiento -->
+                <div class="form-group">
+                  <label for="fechaVencimiento" class="form-label">Fecha de Vencimiento</label>
+                  <input
+                    type="date"
+                    required
+                    min="{{firma.fecha_emision}}"
+                    class="form-control"
+                    id="fechaVencimiento"
+                    [(ngModel)]="firma.fecha_vencimiento"
+                    name="fech_venci"
+                    #fech_venci = 'ngModel'
+                  >
+                  <div class="alert alert-danger" *ngIf="fech_venci.invalid && (fech_venci.dirty || fech_venci.touched)">
+                    <div *ngIf="fech_venci.errors?.['required']">
+                      Ingrese la Fecha de Vencimiento
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- Ruta Rúbrica -->
+                <div class="form-group" style="position:relative">
+                  <label for="rubrica" class="form-label">Ruta Rúbrica</label>
+
+                  <input
+                    type="text"
+                    value="{{firma.ruta_rubrica}}"
+                    class="form-control"
+                    name="ruta_rubrica"
+                  >
+                  <input
+                    required
+                    id="rubrica"
+                    type="file"
+                    class="form-control rubrica_input"
+                    accept="image/jpg, image/png, image/jpeg"
+                    [(ngModel)]="firma.ruta_rubrica"
+                    name="ruta_rubrica"
+                    #ruta_rubrica =  'ngModel'
+                  >
+                </div>
+                <div class="alert alert-danger" *ngIf="ruta_rubrica.invalid && (ruta_rubrica.dirty || ruta_rubrica.touched)">
+                  <div *ngIf="ruta_rubrica.errors?.['required']">
+                    Ingrese la Imagen de su Rúbrica
+                  </div>
+                </div>
+
+                <!-- btn send -->
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-success btn-send" data-bs-dismiss="modal" [disabled]="!firmasADDForm.form.valid">Agregar</button>
+                </div>
+              </div>
+
+
+              <div class="col-lg-6 col-xl-6 col-md-6 col-sm-12">
+
+                <!-- Certificado Digital -->
+                <h2 class="text-center">Subir Certificado</h2>
+                <p  class="text-center subtitle_cert">Este certificado se encriptará en nuestro servidor</p>
+                <label for="certDigital" class="form-label label-certif">Subir Archivos</label>
+                <div class="drag-area" style="position: relative">
+                  <div *ngIf="firma.certificado_digital !== undefined && firma.certificado_digital !== null &&  firma.certificado_digital !== '' ">
+                    Subió el archivo: {{firma.certificado_digital}}
+                  </div>
+                  <div *ngIf="firma.certificado_digital === undefined || firma.certificado_digital === null || firma.certificado_digital === '' " class="text-center " >
+                    <div>
+                      <fa-icon [icon]="update" class="iconSize" ></fa-icon>
+                    </div>
+                    <div class="text-center " >
+                      <p> Suelte los archivos aquí para adjuntarlos </p>
+                      <p> o de un clic para explorar </p>
+                      <p> Tamaño 4MB como máximo </p>
+                    </div>
+                  </div>
+                  <input
+                    required
+                    type="file"
+                    class="form-control certif_input"
+                    id="certDigital"
+                    [(ngModel)]="firma.certificado_digital"
+                    name="certif_digital"
+                    multiple
+                    #certif_digital = 'ngModel'
+                  >
+                </div>
+                <div class="alert alert-danger" *ngIf="certif_digital.invalid && (certif_digital.dirty || certif_digital.touched)">
+                  <div *ngIf="certif_digital.errors?.['required']">
+                    Ingrese sus Certificados
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
